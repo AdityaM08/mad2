@@ -14,6 +14,8 @@ class User(db.Model,UserMixin):
     # role_id = db.Column(db.String, db.ForeignKey('role.id'))
     roles = db.relationship('Role', secondary='roles_users',
                          backref=db.backref('users', lazy='dynamic'))
+    section = db.relationship('Section', backref='creator')
+    
     # carts = relationship('Cart', backref='user', lazy=True)
     # orders = relationship('Order', backref='user', lazy=True)
 
@@ -37,6 +39,7 @@ class Section(db.Model):
     name = db.Column(db.String(50), nullable=False)
     products = relationship('Product', backref='section',
                             lazy=True, cascade="all, delete-orphan")
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"<category {self.name}>"

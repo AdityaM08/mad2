@@ -24,7 +24,7 @@ class Api_Section(Resource):
     @roles_required("customer")
     def post(self):
         args = parser.parse_args()
-        section= Section(**args)
+        section=Section(name=args.get("name"), creator_id=current_user.id)
         db.session.add(section)
         db.session.commit()
         return {"message": "Category created successfully"}
