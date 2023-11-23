@@ -35,11 +35,12 @@ class Role(db.Model, RoleMixin):
     description = db.Column(db.String(255))
 
 class Section(db.Model):
-    c_id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     products = relationship('Product', backref='section',
                             lazy=True, cascade="all, delete-orphan")
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    is_approved = db.Column(db.Boolean(), default=False)
 
     def __repr__(self):
         return f"<category {self.name}>"
@@ -53,7 +54,7 @@ class Product(db.Model):
     unit = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(100))
     category = db.Column(db.String(50), nullable=False)
-    c_id = db.Column(db.Integer(), db.ForeignKey('section.c_id'), nullable=False)
+    c_id = db.Column(db.Integer(), db.ForeignKey('section.id'), nullable=False)
     carts = relationship('Cart', backref='product',
                          lazy=True, cascade="all, delete-orphan")
 

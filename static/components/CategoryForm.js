@@ -1,7 +1,7 @@
 export default {
     template: `<div>
     <input type="text" placeholder="name" v-model="resource.name"/>
-    <button @click="createResource"> Create Category</button>
+    <button @click="createCategory"> Create Category</button>
     </div>`,
   
     data() {
@@ -14,7 +14,7 @@ export default {
     },
   
     methods: {
-      async createResource() {
+      async createCategory() {
         const res = await fetch('/api/section', {
           method: 'POST',
           headers: {

@@ -58,3 +58,14 @@ def all_users():
     if len(users) == 0:
         return jsonify({"message": "No User Found"}), 404
     return marshal(users, user_fields) 
+
+@app.get('/section/<int:id>/approve')
+@auth_required("token")
+@roles_required("admin")
+def resource(id):
+    section = Section.query.get(id)
+    if not section:
+        return jsonify({"message": "Resource Not found"}), 404
+    section.is_approved = True
+    db.session.commit()
+    return jsonify({"message": "Aproved"})
